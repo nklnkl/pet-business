@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/validator": "^6.3.0",
     "moment": "^2.19.3",
+    "pet-entity": "^1.0.3",
     "validator": "^9.1.2"
   }
 }
