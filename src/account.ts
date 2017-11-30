@@ -1,9 +1,9 @@
-import {Account} from 'pet-entity';
+import { Account } from 'pet-entity';
 import * as validator from 'validator';
 export {AccountService};
 class AccountService {
 
-	public createCustomer (email: string, password: string, name: string, birthday: number, address: string) : Account {
+	public createCustomer (email: string, password: string, name: string, birthday: number, address: string) : Account|number {
 		let account: Account = new Account();
 		if(!validator.isEmail(email))
 			return 1;
