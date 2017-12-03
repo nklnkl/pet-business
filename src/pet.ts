@@ -39,22 +39,17 @@ class PetService {
   */
   public static update (pet: Pet, update: Pet) : Pet|number {
 
-    let name: string = update.getName();
-    let birthDate: any = update.getBirthDate();
-    let breed: any = update.getBreed();
-    let species: any = update.getSpecies();
-
-    if (species == 0 || species > Species.getList().length - 1)
+    if (update.getSpecies() == 0 || update.getSpecies() > Species.getList().length - 1)
       return 1;
-    if (breed == 0 || breed > Breeds.getList()[species].length - 1)
+    if (update.getBreed() == 0 || update.getBreed() > Breeds.getList()[update.getSpecies()].length - 1)
       return 2;
-    if (!this.validateName(name))
+    if (!this.validateName(update.getName()))
       return 3;
 
-    pet.setSpecies(species);
-    pet.setBreed(breed);
-    pet.setBirthDate(birthDate);
-    pet.setName(name);
+    pet.setSpecies(update.getSpecies());
+    pet.setBreed(update.getBreed());
+    pet.setBirthDate(update.getBirthDate());
+    pet.setName(update.getName());
     return pet;
   }
 

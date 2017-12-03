@@ -58,28 +58,21 @@ class AccountService {
 	public static update (account: Account, update: Account) : Promise<Account> {
 		return new Promise((resolve, reject) => {
 
-			let email: string = update.getEmail();
-			let password: string = update.getPassword();
-			let name: string = update.getName();
-			let birthDate: any = update.getBirthDate(0);
-			let address: string = update.getAddress();
-			let level: any = update.getLevel(0);
+			if (!Validator.isEmail(update.getEmail())) reject(1);
+			if (update.getPassword())
+				if (!this.validatePassword(update.getPassword())) reject(2);
+			if (!this.validateName(update.getName())) reject(3);
+			if (!this.validateBirthDate(update.getBirthDate())) reject(4);
+			if (!this.validateAddress(update.getAddress())) reject(5);
+			if (!this.validateLevel(update.getLevel())) reject(6);
 
-			if (!Validator.isEmail(email)) reject(1);
-			if (password)
-				if (!this.validatePassword(password)) reject(2);
-			if (!this.validateName(name)) reject(3);
-			if (!this.validateBirthDate(birthDate)) reject(4);
-			if (!this.validateAddress(address)) reject(5);
-			if (!this.validateLevel(level)) reject(6);
+			account.setEmail(update.getEmail());
+			account.setName(update.getName());
+			account.setBirthDate(update.getBirthDate());
+			account.setAddress(update.getAddress());
 
-			account.setEmail(email);
-			account.setName(name);
-			account.setBirthDate(birthDate);
-			account.setAddress(address);
-
-			if (password) {
-				this.hashPassword(password)
+			if (update.getPassword()) {
+				this.hashPassword(update.getPassword())
 				.then((hash: string) => {
 					account.setPassword(hash);
 					resolve(account);
