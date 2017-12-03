@@ -4,7 +4,7 @@ export { SessionService };
 
 class SessionService {
 
-  public create(id: string) : Session {
+  public static create(id: string) : Session {
     let session: Session = new Session();
     session.setUserId(id);
     session.setCreated(Moment().valueOf());
