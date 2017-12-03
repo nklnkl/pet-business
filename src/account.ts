@@ -13,26 +13,17 @@ class AccountService {
 			0: password hashing failed
 			1: email failed validation
 			2: password failed validation
-			3: name failed validation
-			4: birth date failed validation
-			5: address failed validation
-			6: level failed validation
+			3: level failed validation
 	*/
-	public static create (email: string, password: string, name: string, birthDate: number, address: string, level: number) : Promise<Account> {
+	public static create (email: string, password: string, level: number) : Promise<Account> {
 		return new Promise((resolve, reject) => {
 
 			if (!Validator.isEmail(email)) reject(1);
 			if (!this.validatePassword(password)) reject(2);
-			if (!this.validateName(name)) reject(3);
-			if (!this.validateBirthDate(birthDate)) reject(4);
-			if (!this.validateAddress(address)) reject(5);
-			if (!this.validateLevel(level)) reject(6);
+			if (!this.validateLevel(level)) reject(3);
 
 			let account: Account = new Account();
 			account.setEmail(email);
-			account.setName(name);
-			account.setBirthDate(birthDate);
-			account.setAddress(address);
 			account.setLevel(level);
 
 			this.hashPassword(password)
