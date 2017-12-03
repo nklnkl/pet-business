@@ -1,48 +1,142 @@
 import { Account } from 'pet-entity';
-import * as validator from 'validator';
-export {AccountService};
+import * as Validator from 'validator';
+import * as Bcrypt from 'bcrypt';
+import * as Moment from 'moment';
+export { AccountService };
+
 class AccountService {
 
-	public createCustomer (email: string, password: string, name: string, birthday: number, address: string) : Account|number {
-		let account: Account = new Account();
-		if(!validator.isEmail(email))
-			return 1;
+  private static saltRounds = 10;
 
-		else
+	/*
+		reject codes
+			0: password hashing failed
+			1: email failed validation
+			2: password failed validation
+			3: name failed validation
+			4: birth date failed validation
+			5: address failed validation
+			6: level failed validation
+	*/
+	public static create (email: string, password: string, name: string, birthDate: number, address: string, level: number) : Promise<Account> {
+		return new Promise((resolve, reject) => {
+
+			if (!Validator.isEmail(email)) reject(1);
+			if (!this.validatePassword(password)) reject(2);
+			if (!this.validateName(name)) reject(3);
+			if (!this.validateBirthDate(birthDate)) reject(4);
+			if (!this.validateAddress(address)) reject(5);
+			if (!this.validateLevel(level)) reject(6);
+
+			let account: Account = new Account();
 			account.setEmail(email);
+			account.setName(name);
+			account.setBirthDate(birthDate);
+			account.setAddress(address);
+			account.setLevel(level);
 
-		if (password.length<7 || password.length>10)
-			return 2;
+			this.hashPassword(password)
+			.then((hash: string) => {
+				account.setPassword(hash);
+				return resolve(account);
+			})
+			.catch((err: Error) => reject(0));
 
-		else
-			account.setPassword(password);
-
-		account.setName(name);
-		account.setBirthDate(birthday);
-		account.setAddress(address);
-		account.setLevel(0);
-		return account;
+		});
 	}
 
-	public createAdmin (email: string, password: string, name: string, birthday: number, address: string) : Account | number {
-		let account: Account = new Account();
+	/*
+		reject codes
+			0: password hashing failed
+			1: email failed validation
+			2: password failed validation
+			3: name failed validation
+			4: birth date failed validation
+			5: address failed validation
+			6: level failed validation
+	*/
+	public static update (account: Account, update: Account) : Promise<Account> {
+		return new Promise((resolve, reject) => {
 
-		if(!validator.isEmail(email))
-			return 1;
+			let email: string = update.getEmail();
+			let password: string = update.getPassword();
+			let name: string = update.getName();
+			let birthDate: any = update.getBirthDate(0);
+			let address: string = update.getAddress();
+			let level: any = update.getLevel(0);
 
-		else
+			if (!Validator.isEmail(email)) reject(1);
+			if (password)
+				if (!this.validatePassword(password)) reject(2);
+			if (!this.validateName(name)) reject(3);
+			if (!this.validateBirthDate(birthDate)) reject(4);
+			if (!this.validateAddress(address)) reject(5);
+			if (!this.validateLevel(level)) reject(6);
+
 			account.setEmail(email);
+			account.setName(name);
+			account.setBirthDate(birthDate);
+			account.setAddress(address);
 
-		if (password.length<7 || password.length>10)
-			return 2;
+			if (password) {
+				this.hashPassword(password)
+				.then((hash: string) => {
+					account.setPassword(hash);
+					resolve(account);
+				})
+				.catch((err: Error) => reject(0));
+			}
+			else
+				resolve(account);
 
-		else
-			account.setPassword(password);
+		});
+	}
 
-		account.setName(name);
-		account.setBirthDate(birthday);
-		account.setAddress(address);
-		account.setLevel(1);
-		return account;
+	public static hashPassword (password: string) : Promise<string> {
+		return new Promise((resolve, reject) => {
+			Bcrypt.hash(password, this.saltRounds, function(err: Error, hash) {
+				if (err) reject(err);
+				resolve(hash);
+			});
+		});
+	}
+
+	public static checkPassword (password: string, hash: string) : Promise<boolean> {
+		return new Promise((resolve, reject) => {
+			Bcrypt.compare(password, hash, function (err: Error, match: boolean) {
+				if (err) reject(err);
+				resolve(match);
+			});
+		});
+	}
+
+	public static validatePassword (password: string) : boolean {
+		if (password.length < 7 || password.length > 32) return false;
+		return true;
+	}
+
+	public static validateName (name: string) : boolean {
+		if (name.length < 1) return false;
+		if (name.length > 16) return false;
+		if (!Validator.isAlpha(name)) return false;
+		return true;
+	}
+
+	public static validateBirthDate (birthDate: number) : boolean {
+		let age: number = Moment().diff( Moment(birthDate), "years");
+		if (age < 13) return false;
+		return true;
+	}
+
+	public static validateAddress (address: string) : boolean {
+		return true;
+	}
+
+	public static validateLevel (level: number) : boolean {
+		switch (level) {
+			case 1: return true;
+			case 2: return true;
+			default: return false;
+		}
 	}
 }
