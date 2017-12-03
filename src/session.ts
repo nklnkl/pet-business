@@ -4,12 +4,14 @@ export { SessionService };
 
 class SessionService {
 
-  public static create(id: string) : Session {
-    let session: Session = new Session();
-    session.setUserId(id);
-    session.setCreated(Moment().valueOf());
-    session.setUpdated(Moment().valueOf());
-    return session;
+  public static create(id: string) : Promise<Session> {
+    return new Promise((resolve, reject) => {
+      let session: Session = new Session();
+      session.setUserId(id);
+      session.setCreated(Moment().valueOf());
+      session.setUpdated(Moment().valueOf());
+      resolve(session);
+    });
   }
 
 }
