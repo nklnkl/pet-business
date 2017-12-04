@@ -50,7 +50,7 @@ class AccountService {
 		return new Promise((resolve, reject) => {
 
 			if (!Validator.isEmail(update.getEmail())) reject(1);
-			if (update.getPassword())
+			if (update.getPassword() && update.getPassword() != '')
 				if (!this.validatePassword(update.getPassword())) reject(2);
 			if (!this.validateName(update.getName())) reject(3);
 			if (!this.validateBirthDate(update.getBirthDate())) reject(4);
@@ -62,7 +62,7 @@ class AccountService {
 			account.setBirthDate(update.getBirthDate());
 			account.setAddress(update.getAddress());
 
-			if (update.getPassword()) {
+			if (update.getPassword() && update.getPassword() != '') {
 				this.hashPassword(update.getPassword())
 				.then((hash: string) => {
 					account.setPassword(hash);
