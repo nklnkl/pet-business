@@ -85,7 +85,7 @@ class AccountService {
         else
           reject(6);
       }
-      update.setUpdated(Moment().valueOf());
+      account.setUpdated(Moment().valueOf());
 
 			if (update.password) {
 				this.hashPassword(update.password)

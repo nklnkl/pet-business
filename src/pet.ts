@@ -74,7 +74,7 @@ class PetService {
           reject(5);
       }
 
-      update.setUpdated(Moment().valueOf());
+      pet.setUpdated(Moment().valueOf());
 
       resolve(pet);
     });
