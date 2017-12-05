@@ -46,24 +46,49 @@ class AccountService {
 			5: address failed validation
 			6: level failed validation
 	*/
-	public static update (account: Account, update: Account) : Promise<Account> {
+	public static update (account: Account, update: any) : Promise<Account> {
 		return new Promise((resolve, reject) => {
 
-			if (!Validator.isEmail(update.getEmail())) reject(1);
-			if (update.getPassword() && update.getPassword() != '')
-				if (!this.validatePassword(update.getPassword())) reject(2);
-			if (!this.validateName(update.getName())) reject(3);
-			if (!this.validateBirthDate(update.getBirthDate())) reject(4);
-			if (!this.validateAddress(update.getAddress())) reject(5);
-			if (!this.validateLevel(update.getLevel())) reject(6);
+			if (update.email) {
+        if (Validator.isEmail(update.email))
+          account.setEmail(update.email);
+        else
+          reject(1);
+      }
+      if (update.password) {
+        if (this.validatePassword(update.password))
+          account.setPassword(update.password);
+        else
+          reject(2);
+      }
+      if (update.name) {
+        if (this.validateName(update.name))
+          account.setName(update.name);
+        else
+          reject(3);
+      }
+      if (update.birthDate) {
+        if (this.validateBirthDate(update.birthDate))
+          account.setBirthDate(update.birthDate);
+        else
+          reject(4);
+      }
+      if (update.address) {
+        if (this.validateAddress(update.address))
+          account.setAddress(update.address);
+        else
+          reject(5);
+      }
+      if (update.level) {
+        if (this.validateLevel(update.level))
+          account.setLevel(update.level);
+        else
+          reject(6);
+      }
+      update.setUpdated(Moment().valueOf());
 
-			account.setEmail(update.getEmail());
-			account.setName(update.getName());
-			account.setBirthDate(update.getBirthDate());
-			account.setAddress(update.getAddress());
-
-			if (update.getPassword() && update.getPassword() != '') {
-				this.hashPassword(update.getPassword())
+			if (update.password) {
+				this.hashPassword(update.password)
 				.then((hash: string) => {
 					account.setPassword(hash);
 					resolve(account);
@@ -95,11 +120,13 @@ class AccountService {
 	}
 
 	public static validatePassword (password: string) : boolean {
+    if (typeof password !== 'string') return false;
 		if (password.length < 7 || password.length > 32) return false;
 		return true;
 	}
 
 	public static validateName (name: string) : boolean {
+    if (typeof name !== 'string') return false;
 		if (name.length < 1) return false;
 		if (name.length > 16) return false;
 		if (!Validator.isAlpha(name)) return false;
@@ -107,16 +134,19 @@ class AccountService {
 	}
 
 	public static validateBirthDate (birthDate: number) : boolean {
+    if (typeof birthDate !== 'number') return false;
 		let age: number = Moment().diff( Moment(birthDate), "years");
 		if (age < 13) return false;
 		return true;
 	}
 
 	public static validateAddress (address: string) : boolean {
+    if (typeof address !== 'string') return false;
 		return true;
 	}
 
 	public static validateLevel (level: number) : boolean {
+    if (typeof level !== 'number') return false;
 		switch (level) {
 			case 1: return true;
 			case 2: return true;

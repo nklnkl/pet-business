@@ -28,6 +28,7 @@ class PetService {
       pet.setBreed(breed);
       pet.setBirthDate(birthDate);
       pet.setName(name);
+      pet.setStatus(status);
       resolve(pet);
     });
   }
@@ -37,41 +38,74 @@ class PetService {
       1: species number is invalid
       2: breed number is invalid
       3: name failed validation
+      4: birthDate failed validation
+      5: status failed validation
   */
-  public static update (pet: Pet, update: Pet) : Promise<Pet> {
+  public static update (pet: Pet, update: any) : Promise<Pet> {
     return new Promise((resolve, reject) => {
-      if (update.getSpecies() == 0 || update.getSpecies() > Species.getList().length - 1)
-        reject(1);
-      if (update.getBreed() == 0 || update.getBreed() > Breeds.getList()[update.getSpecies()].length - 1)
-        reject(2);
-      if (!this.validateName(update.getName()))
-        reject(3);
+      if (update.species) {
+        if (this.validateSpecies(update.species))
+          pet.setSpecies(update.species);
+        else
+          reject(1);
+      }
+      if (update.breed && update.species) {
+        if (this.validateBreed(update.species, update.breed))
+          pet.setBreed(update.breed);
+        else
+          reject(2);
+      }
+      if (update.name) {
+        if (this.validateName(update.name))
+          pet.setName(update.name);
+        else
+          reject(3);
+      }
+      if (update.birthDate) {
+        if (this.validateBirthDate(update.birthDate))
+          pet.setBirthDate(update.birthDate);
+        else
+          reject(4);
+      }
+      if (update.status) {
+        if (this.validateStatus(update.status))
+          pet.setStatus(update.status);
+        else
+          reject(5);
+      }
 
-      pet.setSpecies(update.getSpecies());
-      pet.setBreed(update.getBreed());
-      pet.setBirthDate(update.getBirthDate());
-      pet.setName(update.getName());
+      update.setUpdated(Moment().valueOf());
+
       resolve(pet);
     });
   }
 
   public static validateName (name: string) : boolean {
+    if (typeof name !== 'string') return false;
     if (name.length < 1) return false;
     if (name.length > 16) return false;
     if (!Validator.isAlpha(name)) return false;
     return true;
   }
   public static validateSpecies (species: number) : boolean {
+    if (typeof species !== 'number') return false;
     if (species == 0 || species > Species.getList().length - 1)
       return false;
     return true;
   }
   public static validateBreed (species: number, breed: number) : boolean {
+    if (typeof species !== 'number') return false;
+    if (typeof breed !== 'number') return false;
     if (breed == 0 || breed > Breeds.getList()[species].length - 1)
       return false;
     return true;
   }
+  public static validateBirthDate (birthDate: number) : boolean {
+    if (typeof birthDate !== 'number') return false;
+    return true;
+  }
   public static validateStatus (status: number) : boolean {
+    if (typeof status !== 'number') return false;
     if (status == 0 || status > 2)
       return false;
     return true;
