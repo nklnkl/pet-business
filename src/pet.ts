@@ -5,14 +5,20 @@ export { PetService };
 
 class PetService {
 
-  /*
-    reject codes
-      1: species number is invalid
-      2: breed number is invalid
-      3: name failed validation
-      4: status failed validation
-  */
-  public static create (species: number, breed: number, birthDate: number, name: string, status: number) : Promise<Pet> {
+  /**
+  * Data from the update object will be applied to the original, thus only data
+  from the update will be validated. The original is assumed to be valid.
+  * May return a Pet if creation was successful.
+  *
+  * **Reject codes**
+	* - **1**: species number is invalid
+  * - **2**: breed number is invalid
+  * - **3**: name failed validation
+  * - **4**: birth date failed validation
+  * - **5**: status failed validation
+  * - **6**: images failed validation
+	*/
+  public static create (species: number, breed: number, birthDate: number, name: string, status: number, images: Array<string>) : Promise<Pet> {
     return new Promise((resolve, reject) => {
       if (!this.validateSpecies(species))
         reject(1);
@@ -20,27 +26,35 @@ class PetService {
         reject(2);
       if (!this.validateName(name))
         reject(3);
-      if (!this.validateStatus(status))
+      if (!this.validateBirthDate(birthDate))
         reject(4);
+      if (!this.validateStatus(status))
+        reject(5);
+      if (!this.validateImages(images))
+        reject(6);
 
       let pet: Pet = new Pet();
       pet.setSpecies(species);
       pet.setBreed(breed);
-      pet.setBirthDate(birthDate);
       pet.setName(name);
+      pet.setBirthDate(birthDate);
       pet.setStatus(status);
+      pet.setImages(images);
       resolve(pet);
     });
   }
 
-  /*
-    reject codes
-      1: species number is invalid
-      2: breed number is invalid
-      3: name failed validation
-      4: birthDate failed validation
-      5: status failed validation
-  */
+  /**
+  * May return a Pet if update was successful.
+  *
+  * **Reject codes**
+	* - **1**: species number is invalid
+  * - **2**: breed number is invalid
+  * - **3**: name failed validation
+  * - **4**: birth date failed validation
+  * - **5**: status failed validation
+  * - **6**: images failed validation
+	*/
   public static update (pet: Pet, update: any) : Promise<Pet> {
     return new Promise((resolve, reject) => {
       if (update.species) {
@@ -70,6 +84,12 @@ class PetService {
       if (update.status) {
         if (this.validateStatus(update.status))
           pet.setStatus(update.status);
+        else
+          reject(5);
+      }
+      if (update.images) {
+        if (this.validateImages(update.images))
+          pet.setImages(update.images);
         else
           reject(5);
       }
@@ -108,6 +128,12 @@ class PetService {
     if (typeof status !== 'number') return false;
     if (status == 0 || status > 2)
       return false;
+    return true;
+  }
+  public static validateImages (images: Array<string>) : boolean {
+    images.forEach((image: string) => {
+      if (!Validator.isURL(image)) return false;
+    });
     return true;
   }
 }

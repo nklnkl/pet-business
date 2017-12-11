@@ -6,14 +6,19 @@ export { AccountService };
 
 class AccountService {
 
+  /**
+  * The amount of salt rounds used for password encryption.
+  */
   private static saltRounds = 10;
 
-	/*
-		reject codes
-			0: password hashing failed
-			1: email failed validation
-			2: password failed validation
-			3: level failed validation
+	/**
+  * May return an Account if creation was successful.
+  *
+  * **Reject codes**
+	*  - **0**: password hashing failed
+	*  - **1**: email failed validation
+	*  - **2**: password failed validation
+	*  - **3**: level failed validation
 	*/
 	public static create (email: string, password: string, level: number) : Promise<Account> {
 		return new Promise((resolve, reject) => {
@@ -36,16 +41,21 @@ class AccountService {
 		});
 	}
 
-	/*
-		reject codes
-			0: password hashing failed
-			1: email failed validation
-			2: password failed validation
-			3: name failed validation
-			4: birth date failed validation
-			5: address failed validation
-			6: level failed validation
-	*/
+  /**
+  * Data from the update object will be applied to the original, thus only data
+  from the update will be validated. The original is assumed to be valid.
+  * May return an Account if update was successful.
+  *
+  * **Reject codes**
+  *
+  * - **0**: password hashing failed
+  * - **1**: email failed validation
+  * - **2**: password failed validation
+  * - **3**: name failed validation
+  * - **4**: birth date failed validation
+  * - **5**: address failed validation
+  * - **6**: level failed validation
+  */
 	public static update (account: Account, update: any) : Promise<Account> {
 		return new Promise((resolve, reject) => {
 
