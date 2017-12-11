@@ -1,6 +1,6 @@
 {
   "name": "pet-business",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/index",
@@ -15,7 +15,7 @@
     "@types/validator": "^6.3.0",
     "bcrypt": "^1.0.3",
     "moment": "^2.19.3",
-    "pet-entity": "^1.2.2",
+    "pet-entity": "^1.2.3",
     "validator": "^9.1.2"
   }
 }

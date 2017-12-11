@@ -88,6 +88,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported"><a href="_pet_.petservice.html#update" class="tsd-kind-icon">update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported"><a href="_pet_.petservice.html#validatebirthdate" class="tsd-kind-icon">validate<wbr>Birth<wbr>Date</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported"><a href="_pet_.petservice.html#validatebreed" class="tsd-kind-icon">validate<wbr>Breed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported"><a href="_pet_.petservice.html#validateimages" class="tsd-kind-icon">validate<wbr>Images</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported"><a href="_pet_.petservice.html#validatename" class="tsd-kind-icon">validate<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported"><a href="_pet_.petservice.html#validatespecies" class="tsd-kind-icon">validate<wbr>Species</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported"><a href="_pet_.petservice.html#validatestatus" class="tsd-kind-icon">validate<wbr>Status</a></li>
@@ -102,13 +103,13 @@
 					<a name="create" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>species<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, breed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, birthDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Pet</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>species<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, breed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, birthDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, images<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Pet</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/e252a72/src/pet.ts#L21">pet.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/cdf3450/src/pet.ts#L21">pet.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -124,6 +125,7 @@
 									<li><strong>3</strong>: name failed validation</li>
 									<li><strong>4</strong>: birth date failed validation</li>
 									<li><strong>5</strong>: status failed validation</li>
+									<li><strong>6</strong>: images failed validation</li>
 								</ul>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -143,6 +145,9 @@
 								<li>
 									<h5>status: <span class="tsd-signature-type">number</span></h5>
 								</li>
+								<li>
+									<h5>images: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Pet</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -158,7 +163,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/e252a72/src/pet.ts#L54">pet.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/cdf3450/src/pet.ts#L58">pet.ts:58</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -172,6 +177,7 @@
 									<li><strong>3</strong>: name failed validation</li>
 									<li><strong>4</strong>: birth date failed validation</li>
 									<li><strong>5</strong>: status failed validation</li>
+									<li><strong>6</strong>: images failed validation</li>
 								</ul>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -197,7 +203,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/e252a72/src/pet.ts#L113">pet.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/cdf3450/src/pet.ts#L123">pet.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -220,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/e252a72/src/pet.ts#L106">pet.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/cdf3450/src/pet.ts#L116">pet.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -237,6 +243,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
+					<a name="validateimages" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> validate<wbr>Images</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">validate<wbr>Images<span class="tsd-signature-symbol">(</span>images<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/cdf3450/src/pet.ts#L133">pet.ts:133</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>images: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
 					<a name="validatename" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> validate<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
@@ -246,7 +275,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/e252a72/src/pet.ts#L93">pet.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/cdf3450/src/pet.ts#L103">pet.ts:103</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -269,7 +298,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/e252a72/src/pet.ts#L100">pet.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/cdf3450/src/pet.ts#L110">pet.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -292,7 +321,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/e252a72/src/pet.ts#L117">pet.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/nklnkl/pet-business/blob/cdf3450/src/pet.ts#L127">pet.ts:127</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -345,6 +374,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
 								<a href="_pet_.petservice.html#validatebreed" class="tsd-kind-icon">validate<wbr>Breed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
+								<a href="_pet_.petservice.html#validateimages" class="tsd-kind-icon">validate<wbr>Images</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static tsd-is-not-exported">
 								<a href="_pet_.petservice.html#validatename" class="tsd-kind-icon">validate<wbr>Name</a>
