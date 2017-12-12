@@ -9,14 +9,12 @@ class SessionService {
   *
   * **Reject codes**
 	*/
-  public static create(accountId: string) : Promise<Session> {
-    return new Promise((resolve, reject) => {
-      let session: Session = new Session();
-      session.setAccountId(accountId);
-      session.setCreated(Moment().valueOf());
-      session.setUpdated(Moment().valueOf());
-      resolve(session);
-    });
+  public static async create(accountId: string) : Promise<Session> {
+    let session: Session = new Session();
+    session.setAccountId(accountId);
+    session.setCreated(Moment().valueOf());
+    session.setUpdated(Moment().valueOf());
+    return session;
   }
 
 }

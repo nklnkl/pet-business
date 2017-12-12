@@ -18,30 +18,28 @@ class PetService {
   * - **5**: status failed validation
   * - **6**: images failed validation
 	*/
-  public static create (species: number, breed: number, birthDate: number, name: string, status: number, images: Array<string>) : Promise<Pet> {
-    return new Promise((resolve, reject) => {
-      if (!this.validateSpecies(species))
-        reject(1);
-      if (!this.validateBreed(species, breed))
-        reject(2);
-      if (!this.validateName(name))
-        reject(3);
-      if (!this.validateBirthDate(birthDate))
-        reject(4);
-      if (!this.validateStatus(status))
-        reject(5);
-      if (!this.validateImages(images))
-        reject(6);
+  public static async create (species: number, breed: number, birthDate: number, name: string, status: number, images: Array<string>) : Promise<Pet|number> {
+    if (!this.validateSpecies(species))
+      return 1;
+    if (!this.validateBreed(species, breed))
+      return 2;
+    if (!this.validateName(name))
+      return 3;
+    if (!this.validateBirthDate(birthDate))
+      return 4;
+    if (!this.validateStatus(status))
+      return 5;
+    if (!this.validateImages(images))
+      return 6;
 
-      let pet: Pet = new Pet();
-      pet.setSpecies(species);
-      pet.setBreed(breed);
-      pet.setName(name);
-      pet.setBirthDate(birthDate);
-      pet.setStatus(status);
-      pet.setImages(images);
-      resolve(pet);
-    });
+    let pet: Pet = new Pet();
+    pet.setSpecies(species);
+    pet.setBreed(breed);
+    pet.setName(name);
+    pet.setBirthDate(birthDate);
+    pet.setStatus(status);
+    pet.setImages(images);
+    return pet;
   }
 
   /**
@@ -55,49 +53,47 @@ class PetService {
   * - **5**: status failed validation
   * - **6**: images failed validation
 	*/
-  public static update (pet: Pet, update: any) : Promise<Pet> {
-    return new Promise((resolve, reject) => {
-      if (update.species) {
-        if (this.validateSpecies(update.species))
-          pet.setSpecies(update.species);
-        else
-          reject(1);
-      }
-      if (update.breed && update.species) {
-        if (this.validateBreed(update.species, update.breed))
-          pet.setBreed(update.breed);
-        else
-          reject(2);
-      }
-      if (update.name) {
-        if (this.validateName(update.name))
-          pet.setName(update.name);
-        else
-          reject(3);
-      }
-      if (update.birthDate) {
-        if (this.validateBirthDate(update.birthDate))
-          pet.setBirthDate(update.birthDate);
-        else
-          reject(4);
-      }
-      if (update.status) {
-        if (this.validateStatus(update.status))
-          pet.setStatus(update.status);
-        else
-          reject(5);
-      }
-      if (update.images) {
-        if (this.validateImages(update.images))
-          pet.setImages(update.images);
-        else
-          reject(5);
-      }
+  public static async update (pet: Pet, update: any) : Promise<Pet|number> {
+    if (update.species) {
+      if (this.validateSpecies(update.species))
+        pet.setSpecies(update.species);
+      else
+        return 1;
+    }
+    if (update.breed && update.species) {
+      if (this.validateBreed(update.species, update.breed))
+        pet.setBreed(update.breed);
+      else
+        return 2;
+    }
+    if (update.name) {
+      if (this.validateName(update.name))
+        pet.setName(update.name);
+      else
+        return 3;
+    }
+    if (update.birthDate) {
+      if (this.validateBirthDate(update.birthDate))
+        pet.setBirthDate(update.birthDate);
+      else
+        return 4;
+    }
+    if (update.status) {
+      if (this.validateStatus(update.status))
+        pet.setStatus(update.status);
+      else
+        return 5;
+    }
+    if (update.images) {
+      if (this.validateImages(update.images))
+        pet.setImages(update.images);
+      else
+        return 5;
+    }
 
-      pet.setUpdated(Moment().valueOf());
+    pet.setUpdated(Moment().valueOf());
 
-      resolve(pet);
-    });
+    return pet;
   }
 
   public static validateName (name: string) : boolean {

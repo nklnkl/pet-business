@@ -20,25 +20,24 @@ class AccountService {
 	*  - **2**: password failed validation
 	*  - **3**: level failed validation
 	*/
-	public static create (email: string, password: string, level: number) : Promise<Account> {
-		return new Promise((resolve, reject) => {
+	public static async create (email: string, password: string, level: number) : Promise<Account|number> {
 
-			if (!Validator.isEmail(email)) reject(1);
-			if (!this.validatePassword(password)) reject(2);
-			if (!this.validateLevel(level)) reject(3);
+    if (!Validator.isEmail(email)) return 1;
+    if (!this.validatePassword(password)) return 2;
+    if (!this.validateLevel(level)) return 3;
 
-			let account: Account = new Account();
-			account.setEmail(email);
-			account.setLevel(level);
+    let account: Account = new Account();
+    account.setEmail(email);
+    account.setLevel(level);
 
-			this.hashPassword(password)
-			.then((hash: string) => {
-				account.setPassword(hash);
-				return resolve(account);
-			})
-			.catch((err: Error) => reject(0));
-
-		});
+    try {
+      let hash: string = await this.hashPassword(password);
+      account.setPassword(hash);
+      return account;
+    }
+    catch (err) {
+      return err;
+    }
 	}
 
   /**
@@ -56,59 +55,57 @@ class AccountService {
   * - **5**: address failed validation
   * - **6**: level failed validation
   */
-	public static update (account: Account, update: any) : Promise<Account> {
-		return new Promise((resolve, reject) => {
+	public static async update (account: Account, update: any) : Promise<Account|number> {
+		if (update.email) {
+      if (Validator.isEmail(update.email))
+        account.setEmail(update.email);
+      else
+        return 1;
+    }
+    if (update.password) {
+      if (this.validatePassword(update.password))
+        account.setPassword(update.password);
+      else
+        return 2;
+    }
+    if (update.name) {
+      if (this.validateName(update.name))
+        account.setName(update.name);
+      else
+        return 3;
+    }
+    if (update.birthDate) {
+      if (this.validateBirthDate(update.birthDate))
+        account.setBirthDate(update.birthDate);
+      else
+        return 4;
+    }
+    if (update.address) {
+      if (this.validateAddress(update.address))
+        account.setAddress(update.address);
+      else
+        return 5;
+    }
+    if (update.level) {
+      if (this.validateLevel(update.level))
+        account.setLevel(update.level);
+      else
+        return 6;
+    }
+    account.setUpdated(Moment().valueOf());
 
-			if (update.email) {
-        if (Validator.isEmail(update.email))
-          account.setEmail(update.email);
-        else
-          reject(1);
+    if (update.password) {
+      try {
+        let hash: string = await this.hashPassword(update.password);
+        account.setPassword(hash);
+        return account;
       }
-      if (update.password) {
-        if (this.validatePassword(update.password))
-          account.setPassword(update.password);
-        else
-          reject(2);
+      catch (err) {
+        return err;
       }
-      if (update.name) {
-        if (this.validateName(update.name))
-          account.setName(update.name);
-        else
-          reject(3);
-      }
-      if (update.birthDate) {
-        if (this.validateBirthDate(update.birthDate))
-          account.setBirthDate(update.birthDate);
-        else
-          reject(4);
-      }
-      if (update.address) {
-        if (this.validateAddress(update.address))
-          account.setAddress(update.address);
-        else
-          reject(5);
-      }
-      if (update.level) {
-        if (this.validateLevel(update.level))
-          account.setLevel(update.level);
-        else
-          reject(6);
-      }
-      account.setUpdated(Moment().valueOf());
-
-			if (update.password) {
-				this.hashPassword(update.password)
-				.then((hash: string) => {
-					account.setPassword(hash);
-					resolve(account);
-				})
-				.catch((err: Error) => reject(0));
-			}
-			else
-				resolve(account);
-
-		});
+    }
+    else
+      return account;
 	}
 
 	public static hashPassword (password: string) : Promise<string> {
